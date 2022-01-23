@@ -1,0 +1,418 @@
+import React, { Component, useContext } from "react";
+import {
+  Form,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  CardText,
+  CardFooter,
+} from "reactstrap";
+
+import Step0 from "./Step0";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
+import Step5 from "./Step5";
+import Step6 from "./Step6";
+import Step7 from "./Step7";
+import Step8 from "./Step8";
+
+import MultiStepProgressBar from "./MultiStepProgressBar";
+import buildingContext from "../../../../context/building/buildingContext";
+import toast from "react-hot-toast";
+
+class MasterForm extends Component {
+  static contextType = buildingContext;
+  constructor(props) {
+    super(props);
+
+    // Set the intiial input values
+    this.state = {
+      currentStep: 1,
+      stepsID: v4(),
+      building: "",
+      step1: {
+        title: "Conception d'un Projet",
+        state: "now",
+        startDate: "",
+        endDate: "",
+      },
+      step2: {
+        title: "Permis de Construire",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step3: {
+        title: "Préparation et  Voirie  réseaux divers",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step4: {
+        title: "Fondations et GrOS gros oeuvre",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step5: {
+        title: "Le clos et le couvert",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step6: {
+        title: "La technique",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step7: {
+        title: "Second oeuvre et Finitions",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step8: { title: "Livraison", state: "new", startDate: "", endDate: "" },
+    };
+
+    // Bind the submission to handleChange()
+    this.handleChange = this.handleChange.bind(this);
+
+    // Bind new functions for next and previous
+    this._next = this._next.bind(this);
+    this._prev = this._prev.bind(this);
+  }
+  // componentDidMount() {
+  //   this.props.BuildingStepsContext.getBuildingSteps();
+  // }
+  // componentDidUpdate() {
+  //   this.props.BuildingStepsContext.getBuildingSteps();
+  // }
+  // Use the submitted data to set the state
+  handleChange(event) {
+    let { name, value } = event.target;
+    if (name === "1startDate" || name === "1endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step1: { ...this.state.step1, [name]: value },
+      });
+    } else if (name === "2startDate" || name === "2endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step2: { ...this.state.step2, [name]: value },
+      });
+    } else if (name === "3startDate" || name === "3endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step3: { ...this.state.step3, [name]: value },
+      });
+    } else if (name === "4startDate" || name === "4endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step4: { ...this.state.step4, [name]: value },
+      });
+    } else if (name === "5startDate" || name === "5endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step5: { ...this.state.step5, [name]: value },
+      });
+    } else if (name === "6startDate" || name === "6endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step6: { ...this.state.step6, [name]: value },
+      });
+    } else if (name === "7startDate" || name === "7endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step7: { ...this.state.step7, [name]: value },
+      });
+    } else if (name === "8startDate" || name === "8endDate") {
+      name = name.slice(1);
+      this.setState({
+        ...this.state,
+        step8: { ...this.state.step8, [name]: value },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        [name]: value,
+      });
+      // max = buildings;
+    }
+  }
+
+  // Trigger an alert on form submission
+  handleSubmit = (event) => {
+    const today = new Date().toJSON().slice(0, 10);
+    event.preventDefault();
+    this.props.BuildingStepsContext.addBuildingSteps(this.state);
+    if (this.state.step1.endDate < today) {
+      this.context.updateBstate(this.state.building, "paused");
+    } else {
+      this.context.updateBstate(this.state.building, "inProgress");
+    }
+    this.setState({
+      currentStep: 1,
+      building: "",
+      stepsID: v4(),
+      step1: {
+        title: "Conception d'un Projet",
+        state: "now",
+        startDate: "",
+        endDate: "",
+      },
+      step2: {
+        title: "Permis de Construire",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step3: {
+        title: "Préparation et  Voirie  réseaux divers",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step4: {
+        title: "Fondations et GrOS gros oeuvre",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step5: {
+        title: "Le clos et le couvert",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step6: {
+        title: "La technique",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step7: {
+        title: "Second oeuvre et Finitions",
+        state: "new",
+        startDate: "",
+        endDate: "",
+      },
+      step8: { title: "Livraison", state: "new", startDate: "", endDate: "" },
+    });
+    toast.success("Successfully added Steps");
+  };
+
+  // Test current step with ternary
+  // _next and _previous functions will be called on button click
+  _next(cs) {
+    if (cs === 1 && this.state.building === "") {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 2 &&
+      (this.state.step1.startDate === "" || this.state.step1.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 3 &&
+      (this.state.step2.startDate === "" || this.state.step2.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 4 &&
+      (this.state.step3.startDate === "" || this.state.step3.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 5 &&
+      (this.state.step4.startDate === "" || this.state.step4.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 6 &&
+      (this.state.step5.startDate === "" || this.state.step5.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 7 &&
+      (this.state.step6.startDate === "" || this.state.step6.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 8 &&
+      (this.state.step7.startDate === "" || this.state.step7.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else if (
+      cs === 9 &&
+      (this.state.step8.startDate === "" || this.state.step8.endDate === "")
+    ) {
+      toast.error("Can't be Empty");
+    } else {
+      let currentStep = cs;
+      // If the current step is 1 or 2, then add one on "next" button click
+      currentStep = currentStep >= 8 ? 9 : currentStep + 1;
+      this.setState({
+        currentStep: currentStep,
+        step2: { ...this.state.step2, startDate: this.state.step1.endDate },
+        step3: { ...this.state.step3, startDate: this.state.step2.endDate },
+        step4: { ...this.state.step4, startDate: this.state.step3.endDate },
+        step5: { ...this.state.step5, startDate: this.state.step4.endDate },
+        step6: { ...this.state.step6, startDate: this.state.step5.endDate },
+        step7: { ...this.state.step7, startDate: this.state.step6.endDate },
+        step8: { ...this.state.step8, startDate: this.state.step7.endDate },
+      });
+    }
+  }
+
+  _prev() {
+    let currentStep = this.state.currentStep;
+    // If the current step is 2 or 3, then subtract one on "previous" button click
+    currentStep = currentStep <= 1 ? 1 : currentStep - 1;
+    this.setState({
+      currentStep: currentStep,
+    });
+  }
+
+  // The "next" and "previous" button functions
+  get previousButton() {
+    let currentStep = this.state.currentStep;
+
+    // If the current step is not 1, then render the "previous" button
+    if (currentStep !== 1) {
+      return (
+        <Button color='secondary mx-3 float-left' onClick={this._prev}>
+          Previous
+        </Button>
+      );
+    }
+
+    // ...else return nothing
+    return null;
+  }
+
+  get nextButton() {
+    let currentStep = this.state.currentStep;
+    // If the current step is not 3, then render the "next" button
+    if (currentStep < 9) {
+      return (
+        <Button
+          color='primary float-right'
+          onClick={() => this._next(currentStep)}
+        >
+          Next
+        </Button>
+      );
+    }
+    // ...else render nothing
+    return null;
+  }
+
+  get submitButton() {
+    let currentStep = this.state.currentStep;
+
+    // If the current step is the last step, then render the "submit" button
+    if (currentStep > 8) {
+      return <Button color='primary float-right'>Submit</Button>;
+    }
+    // ...else render nothing
+    return null;
+  }
+
+  render() {
+    return (
+      <>
+        <Form onSubmit={this.handleSubmit}>
+          <Card>
+            <CardHeader>Steps Calendar</CardHeader>
+            <CardBody>
+              <CardTitle>
+                <MultiStepProgressBar currentStep={this.state.currentStep} />
+              </CardTitle>
+              <CardText />
+              <Step0
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                building={this.state.building}
+              />
+              <Step1
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step1}
+                building={this.state.building}
+              />
+              <Step2
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step2}
+                building={this.state.building}
+              />
+              <Step3
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step3}
+                building={this.state.building}
+              />
+
+              <Step4
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step4}
+                building={this.state.building}
+              />
+              <Step5
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step5}
+                building={this.state.building}
+              />
+              <Step6
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step6}
+                building={this.state.building}
+              />
+              <Step7
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step7}
+                building={this.state.building}
+              />
+              <Step8
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                step1={this.state.step8}
+                building={this.state.building}
+              />
+            </CardBody>
+            <CardFooter>
+              {this.previousButton}
+              {this.nextButton}
+              {this.submitButton}
+            </CardFooter>
+          </Card>
+        </Form>
+      </>
+    );
+  }
+}
+
+export default MasterForm;
+
+const v4 = () => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};

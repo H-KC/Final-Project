@@ -1,0 +1,20 @@
+/* .grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "screen-1 screen-1 screen-1 steps"
+    "screen-1 screen-1 screen-1 steps"
+    "pr-bar pr-bar pr-bar steps";
+}
+.screen-1 {
+  grid-area: screen-1;
+}
+
+.steps {
+  grid-area: steps;
+}
+.pr-bar {
+  grid-area: pr-bar;
+} */

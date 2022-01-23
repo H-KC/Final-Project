@@ -1,0 +1,30 @@
+/*===== GOOGLE FONTS =====*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+main {
+  overflow-y: scroll;
+  overflow-x: scroll;
+  height: 100vh;
+}
+.pebtn {
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 50%;
+  font-size: 16px;
+  margin: 0 4px;
+  cursor: pointer;
+}
+.dlbtn {
+  background-color: #d66c59;
+}
+.upbtn {
+  background-color: #3a8f81;
+}
+/* Darker background on mouse-over */
+.dlbtn:hover {
+  background-color: #793d32;
+}
+.upbtn:hover {
+  background-color: #245f55;
+}
